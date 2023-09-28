@@ -19,9 +19,11 @@ pipeline {
 
         stage("Build") {
             steps {
-                def mavenHome = tool name: "Maven-3.9.4", type: "maven"
-                def mavenCMD = "${mavenHome}/bin/mvn"
-                sh "${mavenCMD} clean install"
+                script {
+                    def mavenHome = tool name: "Maven-3.9.4", type: "maven"
+                    def mavenCMD = "${mavenHome}/bin/mvn"
+                    sh "${mavenCMD} clean install"
+                }
             }
         }
 
@@ -40,9 +42,11 @@ pipeline {
         stage("Code Coverage") {
             steps {
                 withSonarQubeEnv("SonarQube 9.9") {
-                    def mavenHome = tool name: "Maven-3.9.4", type: "maven"
-                    def mavenCMD = "${mavenHome}/bin/mvn"
-                    sh "${mavenCMD} sonar:sonar"
+                    script{
+                        def mavenHome = tool name: "Maven-3.9.4", type: "maven"
+                        def mavenCMD = "${mavenHome}/bin/mvn"
+                        sh "${mavenCMD} sonar:sonar"
+                    }
                 }
             }
         }
