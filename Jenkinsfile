@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage("Clone") {
             steps {
-                git credentialsId: "GIT_CREDENTIALS", url: "https://github.com/PhumlaniDev/library-backend.git"
+                git branch: 'main', credentialsId: 'GIT_CREDENTIALS', url: 'https://github.com/PhumlaniDev/library-backend.git'
             }
         }
 
