@@ -18,14 +18,9 @@ pipeline {
                     script {
                         def sourcePath = sh(script: "echo \$SECRET_FILE", returnStdout: true).trim()
                         def destinationPath = "${WORKSPACE}/src/main/resources/"
-
-                        // Create the destination directory if it doesn't exist
+                        sh "rm -rf ${destinationPath}"
                         sh "mkdir -p ${destinationPath}"
-
-                        // Copy the secret file to src/main/resources
                         sh "cp ${sourcePath} ${destinationPath}"
-
-                        // Optional: Verify that the file has been copied successfully
                         sh "ls -l ${destinationPath}"
                     }
                 }
@@ -35,11 +30,7 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    def mavenHome = tool name: "Maven-3.9.4", type: "maven"
-                    def mavenCMD = "${mavenHome}/bin/mvn"
-                    echo "Maven Home: ${mavenHome}"
-                    echo "Maven Command: ${mavenCMD}"
-                    sh "${mavenCMD} clean install"
+                    sh "mvn clean install"
                 }
             }
         }
@@ -60,9 +51,7 @@ pipeline {
             steps {
                 withSonarQubeEnv("SonarQube 9.9") {
                     script{
-                        def mavenHome = tool name: "Maven-3.9.4", type: "maven"
-                        def mavenCMD = "${mavenHome}/bin/mvn"
-                        sh "${mavenCMD} sonar:sonar"
+                        sh "mvn sonar:sonar"
                     }
                 }
             }
