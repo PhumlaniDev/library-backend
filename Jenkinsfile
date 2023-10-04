@@ -14,8 +14,20 @@ pipeline {
 
         stage('Use Google Secrets') {
             steps {
-                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
-                sh "cp $GOOGLE_SECRETS src/main/resources/"
+                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'SECRET_FILE')]) {
+                    script {
+                        def sourcePath = sh(script: "echo \$SECRET_FILE", returnStdout: true).trim()
+                        def destinationPath = "${WORKSPACE}/src/main/resources/"
+
+                        // Create the destination directory if it doesn't exist
+                        sh "mkdir -p ${destinationPath}"
+
+                        // Copy the secret file to src/main/resources
+                        sh "cp ${sourcePath} ${destinationPath}"
+
+                        // Optional: Verify that the file has been copied successfully
+                        sh "ls -l ${destinationPath}"
+                    }
                 }
             }
         }
