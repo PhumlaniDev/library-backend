@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     def secretFile = credentials('GOOGLE_SECRETS')
-                    def sourcePath = secretFile.toString()
+                    def sourcePath = secretFile
                     def destinationPath = "${WORKSPACE}/src/main/resources/"
                     sh "cp ${sourcePath} ${destinationPath}"
                     sh "ls -l ${destinationPath}"
