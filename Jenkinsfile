@@ -12,15 +12,14 @@ pipeline {
             }
         }
 
-        stage("Use Google Secrets") {
+        stage('Use Google Secrets') {
             steps {
-                script{
-
-                    def secretFile = credentials("GOOGLE_SECRETS")
+                script {
+                    def secretFile = credentials('GOOGLE_SECRETS')
                     def sourcePath = secretFile.toString()
                     def destinationPath = "${WORKSPACE}/src/main/resources/"
                     sh "cp ${sourcePath} ${destinationPath}"
-                    sh "ls -l ${destination}"
+                    sh "ls -l ${destinationPath}"
                 }
             }
         }
