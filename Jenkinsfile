@@ -37,6 +37,8 @@ pipeline {
                 script {
                     def mavenHome = tool name: "Maven-3.9.4", type: "maven"
                     def mavenCMD = "${mavenHome}/bin/mvn"
+                    echo "Maven Home: ${mavenHome}"
+                    echo "Maven Command: ${mavenCMD}"
                     sh "${mavenCMD} clean install"
                 }
             }
