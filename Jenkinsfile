@@ -14,10 +14,8 @@ pipeline {
 
         stage('Use Google Secrets') {
             steps {
-                steps {
-                    withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
-                       sh "cp $GOOGLE_SECRETS /src/main/resources/"
-                    }
+                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
+                sh "cp $GOOGLE_SECRETS /src/main/resources/"
                 }
             }
         }
