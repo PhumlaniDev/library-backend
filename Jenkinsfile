@@ -5,10 +5,15 @@ pipeline {
             args '-v /var/run/docker.sock:/var/run/docker.sock'
          }
     }
+
+    tool{
+        maven "Maven-3.9.4"
+    }
+
     stages {
         stage("Clone") {
             steps {
-                git branch: 'main', credentialsId: 'GIT_CREDENTIALS', url: 'https://github.com/PhumlaniDev/library-backend.git'
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GIT_CREDENTIALS', url: 'https://github.com/PhumlaniDev/library-backend.git']])
             }
         }
 
