@@ -15,10 +15,7 @@ pipeline {
         stage('Use Google Secrets') {
             steps {
                 script {
-                    def secretFile = credentials('GOOGLE_SECRETS')
-                    def sourcePath = secretFile
                     def destinationPath = "${WORKSPACE}/src/main/resources/"
-                    sh "cp ${sourcePath} ${destinationPath}"
                     sh "ls -l ${destinationPath}"
                 }
             }
