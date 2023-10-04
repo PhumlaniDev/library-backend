@@ -16,7 +16,7 @@ pipeline {
             steps {
                 steps {
                     withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'my-private-GOOGLE_SECRETS')]) {
-                       sh "cp \$my-GOOGLE_SECRETS-key /src/main/resources/"
+                       sh "cp $GOOGLE_SECRETS /src/main/resources/"
                     }
                 }
             }
