@@ -6,7 +6,7 @@ pipeline {
          }
     }
 
-    tool{
+    tools {
         maven "Maven-3.9.4"
     }
 
