@@ -17,7 +17,7 @@ pipeline {
                     def secretsFile = sh(returnStdout: true, script: 'echo $GOOGLE_SECRETS').trim()
 
                     // Copy the secrets file to your project's resources directory
-                    sh "cp $secretsFile src/main/resources/"
+                    sh "cp $secretsFile $WORKSPACE/src/main/resources/"
                 }
             }
         }
