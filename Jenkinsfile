@@ -14,7 +14,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
                     script {
-                        sourcePath = sh(script: "echo \\GOOGLE_SECRETS", returnStdout: true).trim()
+                        sourcePath = sh(script: "echo GOOGLE_SECRETS", returnStdout: true).trim()
                         def destinationPath = "${WORKSPACE}/src/main/resources/"
                         sh "rm -rf ${destinationPath}"
                         sh "mkdir -p ${destinationPath}"
