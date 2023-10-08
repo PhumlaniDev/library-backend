@@ -1,12 +1,6 @@
 pipeline {
     agent {
-        docker {
-            label 'docker-slave'
-         }
-    }
-
-    tools {
-        maven "Maven-3.9.4"
+        label 'docker-slave'
     }
 
     stages {
