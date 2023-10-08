@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            label 'docker-agent'
+            label 'docker-slave'
          }
     }
 
@@ -18,9 +18,9 @@ pipeline {
 
         stage('Use Google Secrets') {
             steps {
-                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'SECRET_FILE')]) {
+                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
                     script {
-                        def sourcePath = sh(script: "echo \$SECRET_FILE", returnStdout: true).trim()
+                        def sourcePath = sh(script: "echo \GOOGLE_SECRETS", returnStdout: true).trim()
                         def destinationPath = "${WORKSPACE}/src/main/resources/"
                         sh "rm -rf ${destinationPath}"
                         sh "mkdir -p ${destinationPath}"
@@ -70,8 +70,8 @@ pipeline {
 
         stage("Push to DockerHub") {
             steps {
-                withCredentials([file(credentialsId: "your-credential-id", variable: "DOCKER_HUB")]) {
-                    sh "docker login -u aphumlanidev -p ${DOCKER_HUB}"
+                withCredentials([file(credentialsId: "DOCKER_HUB_PWD", variable: "DOCKER_HUB_PWD")]) {
+                    sh "docker login -u aphumlanidev -p ${DOCKER_HUB_PWD}"
                     sh "docker push aphumlanidev/library-management-backend"
                 }
             }
