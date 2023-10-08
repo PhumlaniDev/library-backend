@@ -12,18 +12,30 @@ pipeline {
 
         stage('Use Google Secrets') {
             steps {
-                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
-                    script {
-                        sourcePath = sh(script: "echo GOOGLE_SECRETS", returnStdout: true).trim()
+                script {
+                    // Store the credentials in a variable
+                    def secretsFile = credentials('GOOGLE_SECRETS')
+
+                    // Check if the credentials were successfully retrieved
+                    if (secretsFile != null) {
+                        def sourcePath = secretsFile.toString()
                         def destinationPath = "${WORKSPACE}/src/main/resources/"
-                        sh "rm -rf ${destinationPath}"
+
+                        // Create the destination directory
                         sh "mkdir -p ${destinationPath}"
+
+                        // Copy the secrets file to the destination directory
                         sh "cp ${sourcePath} ${destinationPath}"
+
+                        // List the contents of the destination directory
                         sh "ls -l ${destinationPath}"
+                    } else {
+                        error "Failed to retrieve GOOGLE_SECRETS"
                     }
                 }
             }
         }
+
 
         stage("Build") {
             steps {
