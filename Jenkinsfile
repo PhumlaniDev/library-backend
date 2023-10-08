@@ -13,25 +13,11 @@ pipeline {
         stage('Use Google Secrets') {
             steps {
                 script {
-                    // Store the credentials in a variable
-                    def secretsFile = credentials('GOOGLE_SECRETS')
+                    // Define the path to your secrets file in Jenkins
+                    def secretsFile = sh(returnStdout: true, script: 'echo $GOOGLE_SECRETS').trim()
 
-                    // Check if the credentials were successfully retrieved
-                    if (secretsFile != null) {
-                        def sourcePath = secretsFile.toString()
-                        def destinationPath = "${WORKSPACE}/src/main/resources/"
-
-                        // Create the destination directory
-                        sh "mkdir -p ${destinationPath}"
-
-                        // Copy the secrets file to the destination directory
-                        sh "cp ${sourcePath} ${destinationPath}"
-
-                        // List the contents of the destination directory
-                        sh "ls -l ${destinationPath}"
-                    } else {
-                        error "Failed to retrieve GOOGLE_SECRETS"
-                    }
+                    // Copy the secrets file to your project's resources directory
+                    sh "cp $secretsFile src/main/resources/"
                 }
             }
         }
