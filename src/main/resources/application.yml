@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/lms
     username: phumlanidev
-    password: password
+    password: Chr1st1@n9432
 
     driver-class-name: org.postgresql.Driver
   jpa:
