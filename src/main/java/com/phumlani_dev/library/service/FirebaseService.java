@@ -29,7 +29,7 @@ public class FirebaseService {
             String imageExtension = mimeType.substring("image/".length());
             String imageId = UUID.randomUUID().toString();
             String gcsFilePath = "images/" + imageId + "." + imageExtension;
-            BlobInfo blobInfo = BlobInfo.newBuilder("book-management-system-2291d.appspot.com", gcsFilePath).build();
+            BlobInfo blobInfo = BlobInfo.newBuilder("library-6f005.appspot.com", gcsFilePath).build();
             Blob blob = gcsStorage.create(blobInfo, imageData);
 
             // Get the public URL of the uploaded image

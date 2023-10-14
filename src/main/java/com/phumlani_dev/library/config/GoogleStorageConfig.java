@@ -15,7 +15,7 @@ public class GoogleStorageConfig {
     public static Storage initializeGoogleCloudStorage() {
         try {
             GoogleCredentials credentials = GoogleCredentials
-                    .fromStream(new FileInputStream("src/main/resources/book-library-5a143-firebase-adminsdk-budnm-73dd7544f8.json"));
+                    .fromStream(new FileInputStream("src/main/resources/library-6f005-firebase-adminsdk-17zis-287127e243.json"));
             StorageOptions options = StorageOptions.newBuilder().setCredentials(credentials).build();
             return options.getService();
         } catch (Exception e) {
