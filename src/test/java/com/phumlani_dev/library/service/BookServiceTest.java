@@ -1,14 +1,13 @@
-package com.phumlani_dev.library;
+package com.phumlani_dev.library.service;
 
 import com.phumlani_dev.library.dto.BookDTO;
 import com.phumlani_dev.library.model.Book;
 import com.phumlani_dev.library.repository.BookRepository;
-import com.phumlani_dev.library.service.BookService;
-import com.phumlani_dev.library.service.FirebaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,13 +36,13 @@ class BookServiceTest {
     }
 
     @Test
-    public void testSaveBook() throws Exception {
+    public void shouldSaveBook() throws Exception {
         // Create a sample BookDTO and a mocked image URL
-        BookDTO bookDTO = new BookDTO();
-        bookDTO.setTitle("Test Book");
-        bookDTO.setAuthor("Test Author");
-        bookDTO.setDescription("Test Description");
         String imageUrl = "https://example.com/image.jpg";
+        BookDTO bookDTO = new BookDTO("Test Book", "Test Author", "Test Description", imageUrl.getBytes());
+//        bookDTO.setTitle();
+//        bookDTO.setAuthor();
+//        bookDTO.setDescription();
 
         // Mock the behavior of bookRepository and firebaseService
         when(bookRepository.findBookByTitle("Test Book")).thenReturn(Optional.empty());
@@ -57,7 +56,44 @@ class BookServiceTest {
     }
 
     @Test
-    public void testGetBookById() throws Exception {
+    public void shouldThrowExceptionIfBookExists(){
+
+        // Arrange
+        String imageUrl = "https://example.com/image.jpg";
+        BookDTO bookDTO = new BookDTO("Test Book", "Test Author", "Test Description", imageUrl.getBytes());
+
+        Mockito.when(bookRepository.findBookByTitle(bookDTO.getTitle())).thenReturn(Optional.of(new Book()));
+
+        // Expect exception to be thrown
+        assertThrows(Exception.class, () -> bookService.saveBook(bookDTO));
+    }
+
+    @Test
+    public void shouldGetAllBooks(){
+
+        List<Book> mockBooks = new ArrayList<>();
+        mockBooks.add(new Book(1L, "Book 1", "Author 1", "Description 1", "cover-image-1"));
+        mockBooks.add(new Book(2L, "Book 2", "Author 2", "Description 2", "cover-image-2"));
+
+        Mockito.when(bookRepository.findAll()).thenReturn(mockBooks);
+
+        List<Book> result = bookService.getAllBook();
+
+        assertEquals(mockBooks.size(), result.size());
+        for (int i = 0; i < mockBooks.size(); i++) {
+            Book mockBook = mockBooks.get(i);
+            Book resultBook = result.get(i);
+
+            assertEquals(mockBook.getBookId(), resultBook.getBookId());
+            assertEquals(mockBook.getTitle(), resultBook.getTitle());
+            assertEquals(mockBook.getAuthor(), resultBook.getAuthor());
+            assertEquals(mockBook.getDescription(), resultBook.getDescription());
+            assertEquals(mockBook.getCoverImage(), resultBook.getCoverImage());
+        }
+    }
+
+    @Test
+    public void shouldGetBookById() throws Exception {
         long bookId = 1L;
         Book book = new Book();
         book.setBookId(bookId);

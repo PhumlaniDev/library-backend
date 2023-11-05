@@ -2,10 +2,14 @@ package com.phumlani_dev.library.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "books")
 public class Book {
 
