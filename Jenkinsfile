@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        GOOGLE_SECRETS = credentials('your-credential-id')
+    }
 
     stages {
         stage("Clone") {
@@ -9,16 +12,8 @@ pipeline {
         }
 
         stage('Use Google Secrets') {
-            steps {
-                withCredentials([file(credentialsId: 'GOOGLE_SECRETS', variable: 'GOOGLE_SECRETS')]) {
-                    script {
-                        def workspace = pwd()
-                        def secretsFilePath = "${workspace}/src/main/resources/secrets"
-
-                        // Copy the secrets file to the workspace
-                        sh "cp ${GOOGLE_SECRETS} ${secretsFilePath}"
-                    }
-                }
+            ssteps {
+                sh "cp \$GOOGLE_SECRETS /var/lib/jenkins/workspace/library-pipeline/src/main/resources/secrets"
             }
         }
 
