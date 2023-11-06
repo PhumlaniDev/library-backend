@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        GOOGLE_SECRETS = credentials('your-credential-id')
+        GOOGLE_SECRETS = credentials('GOOGLE_SECRETS')
     }
 
     stages {
