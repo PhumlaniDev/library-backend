@@ -20,5 +20,5 @@ EXPOSE 7000
 COPY --from=build /app/target/*.jar /app.jar
 
 # Copy configuration from the config stage
-COPY --from=config src/main/resources/library-6f005-firebase-adminsdk-17zis-287127e243.json /app/config/
+COPY --from=config /app/config/library-6f005-firebase-adminsdk-17zis-287127e243.json /app/config/
 CMD ["java", "-jar", "app.jar"]
