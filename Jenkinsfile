@@ -56,10 +56,10 @@ pipeline {
             }
         }
 
-        stage("Dockerize") {
+        stage("Build Docker Image") {
             steps {
                 // Build a Docker image for the Spring Boot application
-                sh "docker build -t library-management-backend ."
+                sh "docker build -t aphumlanidev/library-management-backend ."
             }
         }
 
