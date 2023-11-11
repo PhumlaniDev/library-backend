@@ -13,7 +13,7 @@ pipeline {
 
         stage('Use Google Secrets') {
             steps {
-                sh "cp \$GOOGLE_SECRETS /home/.jenkins/workspace/library-pipeline/src/main/resources"
+                sh "cp \$GOOGLE_SECRETS ~/.jenkins/workspace/library-pipeline/src/main/resources"
             }
         }
 
