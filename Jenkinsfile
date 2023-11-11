@@ -66,8 +66,10 @@ pipeline {
         stage("Push to DockerHub") {
             steps {
                 withCredentials([string(credentialsId: "DOCKER_HUB_PWD", variable: "DOCKER_HUB_PWD")]) {
-                    sh "docker login -u aphumlanidev -p ${DOCKER_HUB_PWD}"
-                    sh "docker push aphumlanidev/library-management-backend"
+                    script{
+                        sh "docker login -u aphumlanidev -p ${DOCKER_HUB_PWD}"
+                        sh "docker push aphumlanidev/library-management-backend"
+                    }
                 }
             }
         }
